@@ -2,6 +2,7 @@
 let untyped = '';
 let typed = '';
 let score = 0;
+let intervalId;
 
 // 必要なHTML要素の取得
 const untypedfield = document.getElementById('untyped');
@@ -92,35 +93,43 @@ const rankCheck = score => {
   return `${score}文字打てました!\n${text}\n【OK】リトライ / 【キャンセル】終了`;
 };
 
-// ゲームを終了
-const gameOver = id => {
-  clearInterval(id);
 
-  const result = confirm(rankCheck(score));
-
-  // OKボタンをクリックされたらリロードする
-  if(result == true) {
-    window.location.reload();
-  }
-};
 
 // カウントダウンタイマー
 const timer = () => {
 
   // タイマー部分のHTML要素（p要素）を取得する
-  let time = count.textContent;
-
-  const id = setInterval(() => {
-
-    // カウントダウンする
+  let time = parseInt(count.textContent);
+  intervalId = setInterval(() => {
     time--;
     count.textContent = time;
 
-    // カウントが0になったらタイマーを停止する
-    if(time <= 0) {
-      gameOver(id);
+    // カウントが0になったら
+    if (time <= 0) {
+      clearInterval(intervalId);
+      untypedfield.textContent = 'タイムアップ';
+      typedfield.textContent = '';FF
+      gameOver();
     }
+    // if (time <= 0) {
+    //   clearInterval(intervalId);
+    //   untypedfield.textContent = 'タイムアップ';
+    // }
+  
   }, 1000);
+};
+// ゲームを終了
+const gameOver = () => {
+    // 残り時間が0になったらタイムアップと表示
+
+  
+  const result = rankCheck(score);
+  
+  const confirmed = confirm(result);
+
+  if (confirmed) {
+    window.location.reload();
+  }
 };
 
 // ゲームスタート時の処理
