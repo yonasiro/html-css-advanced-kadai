@@ -106,16 +106,13 @@ const timer = () => {
 
     // カウントが0になったら
     if (time <= 0) {
-      clearInterval(intervalId);
-      untypedfield.textContent = 'タイムアップ';
-      typedfield.textContent = '';FF
-      gameOver();
+      setTimeout(()=>{
+        clearInterval(intervalId);
+        untypedfield.textContent = 'タイムアップ';
+        typedfield.textContent = '';FF
+        gameOver();
+      },10);
     }
-    // if (time <= 0) {
-    //   clearInterval(intervalId);
-    //   untypedfield.textContent = 'タイムアップ';
-    // }
-  
   }, 1000);
 };
 // ゲームを終了
